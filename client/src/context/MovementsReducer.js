@@ -1,4 +1,4 @@
-export default (state, actions) => {
+function MovementsReducer (state, actions)  {
     switch(actions.type){
         case 'GET_MOVEMENTS':
             return{
@@ -30,3 +30,5 @@ export default (state, actions) => {
             return state;
     }
 }
+
+export default MovementsReducer;

@@ -49,7 +49,7 @@ export const GlobalProvider = ({children}) => {
 
     async function deleteMovement(id){
         try {
-            const res = await axios.delete(`/api/movements/${id}`);
+            await axios.delete(`/api/movements/${id}`);
             dispatch({
                 type: 'DELETE_MOVEMENT',
                 payload: id

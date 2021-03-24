@@ -1,4 +1,6 @@
-import React from 'react';
+import React, {useContext} from 'react';
+
+import {GlobalContext} from '../context/GlobalContext';
 
 import {
     Table,
@@ -11,7 +13,31 @@ import {
     Text
   } from "@chakra-ui/react";
 
+import {formatToAbsCurrency} from '../utils/formatter';
+
 const MovementsTable = ({colorMode}) => {
+
+    const {movements} = useContext(GlobalContext);
+
+    const movementsCount = movements.length;
+    let maxRows = 10;
+    if (movementsCount<maxRows){
+        maxRows=movementsCount;
+    }
+
+    //return only the first 10 rows
+    //toLocaleDateString() turns date into "dd/mm/yyyy"
+    //minus sign is added through conditional rendering if mov.movementAmount < 0;
+    const movementRows = movements.slice(0,maxRows).map((mov) => {
+        return(
+            <Tr>
+                <TDTXT>{new Date(mov.movementCreatedAt).toLocaleDateString()}</TDTXT>
+                <TDTXT>{mov.movementDescription}</TDTXT>
+                <TDTXT isNumeric isNegative={mov.movementAmount<0}>{mov.movementAmount<0 && "-"}${formatToAbsCurrency(mov.movementAmount)}</TDTXT>
+            </Tr>
+        )
+    })
+
     return(
         <Table variant="striped" size="sm" colorScheme={colorMode==="light"?"gray":"teal"}>
             <TableCaption placement="top">Para agregar un movimiento utilice el botón <strong>+</strong> en el panel inferior</TableCaption>
@@ -24,56 +50,7 @@ const MovementsTable = ({colorMode}) => {
                 </Tr>
             </Thead>
             <Tbody>
-                <Tr>
-                    <TDTXT>28/10/21</TDTXT>
-                    <TDTXT>Monthly Income</TDTXT>
-                    <TDTXT isNumeric>$1.100,00</TDTXT>
-                </Tr>
-                <Tr>
-                    <TDTXT>31/12/21</TDTXT>
-                    <TDTXT>Disney+</TDTXT>
-                    <TDTXT isNumeric>-$500,00</TDTXT>
-                </Tr>
-                <Tr>
-                    <TDTXT>03/03/20</TDTXT>
-                    <TDTXT>Honorarios Freelance</TDTXT>
-                    <TDTXT isNumeric>$400,00</TDTXT>
-                </Tr>
-                <Tr>
-                    <TDTXT>03/03/20</TDTXT>
-                    <TDTXT>Honorarios Freelance</TDTXT>
-                    <TDTXT isNumeric>$400,00</TDTXT>
-                </Tr>
-                <Tr>
-                    <TDTXT>03/03/20</TDTXT>
-                    <TDTXT>Honorarios Freelance</TDTXT>
-                    <TDTXT isNumeric>$400,00</TDTXT>
-                </Tr>
-                <Tr>
-                    <TDTXT>03/03/20</TDTXT>
-                    <TDTXT>Honorarios Freelance</TDTXT>
-                    <TDTXT isNumeric>$400,00</TDTXT>
-                </Tr>
-                <Tr>
-                    <TDTXT>03/03/20</TDTXT>
-                    <TDTXT>Honorarios Freelance</TDTXT>
-                    <TDTXT isNumeric>$400,00</TDTXT>
-                </Tr>
-                <Tr>
-                    <TDTXT>03/03/20</TDTXT>
-                    <TDTXT>Honorarios Freelance</TDTXT>
-                    <TDTXT isNumeric>$400,00</TDTXT>
-                </Tr>
-                <Tr>
-                    <TDTXT>03/03/20</TDTXT>
-                    <TDTXT>Honorarios Freelance</TDTXT>
-                    <TDTXT isNumeric>$400,00</TDTXT>
-                </Tr>
-                <Tr>
-                    <TDTXT>03/03/20</TDTXT>
-                    <TDTXT>Honorarios Freelance</TDTXT>
-                    <TDTXT isNumeric>$400,00</TDTXT>
-                </Tr>
+                {movementRows}
             </Tbody>
         </Table>
     )
