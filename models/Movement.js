@@ -18,6 +18,7 @@ const MovementSchema = new mongoose.Schema({
     //TODO: category validation (finite list of Categories)
     movementCategory: {
         type: String,
+        enum: ["Salary", "Services", "Extra Incomes"]
         //required:false as default
     },
     //by defining a default: Date.now it'll set the creation date automatically
