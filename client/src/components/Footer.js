@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, {useRef, useContext, useState} from 'react';
 import {
     IconButton,
     Box, 
@@ -10,9 +10,20 @@ import {
     DrawerOverlay,
     DrawerContent,
     DrawerCloseButton,
-    Tooltip} 
-    from '@chakra-ui/react';
+    Tooltip,
+    FormControl,
+    FormLabel,
+    FormHelperText,
+    Button,
+    Input,
+    Select,
+    NumberInput,
+    NumberInputField,
+    Container,
+    VStack
+    }from '@chakra-ui/react';
 import {FaMoon, FaSun, FaPlusCircle, FaChartLine} from 'react-icons/fa';
+import {GlobalContext} from '../context/GlobalContext';
 
 const FooterBar = ({colorMode, toggleColorMode}) => {
     const btnRef = useRef(null);
@@ -54,7 +65,7 @@ const FooterBar = ({colorMode, toggleColorMode}) => {
                 onClose={onClose}
                 finalFocusRef={btnRef}
                 >
-                    <CustomDrawerOverlay />
+                    <CustomDrawerOverlay onClose={onClose}/>
             </Drawer>
     </>
     )
@@ -79,18 +90,68 @@ const CustomIcon = (props) => {
 }
 
 
-const CustomDrawerOverlay = () => {
+const CustomDrawerOverlay = ({onClose}) => {
+    const {addMovement} = useContext(GlobalContext);
+    const [description, setDescription] = useState('');
+    const [amount, setAmount] = useState(0);
+    const [category, setCategory] = useState('');
+
+
+    const handleSubmit = e => {
+        e.preventDefault();
+        
+        const newMovement = {
+            movementDescription: description,
+            movementAmount: amount,
+            movementCategory: category
+        }
+        addMovement(newMovement);
+        onClose();
+    }
+
     return(
         <DrawerOverlay>
                         <DrawerContent>
                         <DrawerCloseButton />
-                        <DrawerHeader>Create your account</DrawerHeader>
+                        <DrawerHeader alignSelf="center">{`${description} - ${amount} - ${category}`}</DrawerHeader>
 
                         <DrawerBody>
                         </DrawerBody>
-
+                        <Container>
+                            <form onSubmit={handleSubmit}>
+                                <VStack>
+                                    <FormControl id="description" isRequired>
+                                        <FormLabel>Descripción</FormLabel>
+                                        <Input placeholder="Sueldo Mensual Marzo" onChange={(e) => setDescription(e.target.value)}/>
+                                    </FormControl>
+                                    <FormControl id="amount" isRequired>
+                                        <FormLabel>Monto</FormLabel>
+                                        <NumberInput max={500000} min={-500000}>
+                                            <NumberInputField placeholder="1000" onChange={(e) => setAmount(e.target.value)}/>
+                                        </NumberInput>
+                                        <FormHelperText>Para registrar gastos, anótelos en negativo. Por ejemplo: -1000</FormHelperText>
+                                    </FormControl>
+                                    <FormControl id="category" isRequired >
+                                        <FormLabel>Categoría</FormLabel>
+                                        <Select placeholder="Selecciona una categoría" onChange={(e) => setCategory(e.target.value)}>
+                                            <option>Sueldo/Salarios</option>
+                                            <option>Otros Ingresos</option>
+                                            <option>Alquiler</option>
+                                            <option>Expensas y Servicios Mensuales</option>
+                                            <option>Mercadería</option>
+                                            <option>Ocio y Recreación</option>
+                                            <option>Bienes durables</option>
+                                            <option>Otros gastos</option>
+                                        </Select>
+                                    </FormControl>
+                                    <Box>
+                                    <Button alignSelf="center" type="submit" colorScheme="teal">Agregar</Button>
+                                    <Button ml="5" alignSelf="flex-end" colorScheme="gray" onClick={onClose}>Cancelar</Button>
+                                    </Box>
+                                </VStack>
+                            </form>
+                        </Container>
                         <DrawerFooter>
-                            Cancel
                         </DrawerFooter>
                         </DrawerContent>
                     </DrawerOverlay>

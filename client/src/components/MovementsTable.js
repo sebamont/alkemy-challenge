@@ -25,6 +25,10 @@ const MovementsTable = ({colorMode}) => {
         maxRows=movementsCount;
     }
 
+    //sorted by date: from newest to Oldest
+    movements.sort((a,b) => new Date(b.movementCreatedAt) - new Date(a.movementCreatedAt))
+
+
     //return only the first 10 rows
     //toLocaleDateString() turns date into "dd/mm/yyyy"
     //minus sign is added through conditional rendering if mov.movementAmount < 0;
@@ -33,7 +37,7 @@ const MovementsTable = ({colorMode}) => {
             <Tr>
                 <TDTXT>{new Date(mov.movementCreatedAt).toLocaleDateString()}</TDTXT>
                 <TDTXT>{mov.movementDescription}</TDTXT>
-                <TDTXT isNumeric isNegative={mov.movementAmount<0}>{mov.movementAmount<0 && "-"}${formatToAbsCurrency(mov.movementAmount)}</TDTXT>
+                <TDTXT isNumeric>{mov.movementAmount<0 && "-"}${formatToAbsCurrency(mov.movementAmount)}</TDTXT>
             </Tr>
         )
     })

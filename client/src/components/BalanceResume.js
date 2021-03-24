@@ -22,14 +22,8 @@ const BalanceResume = ({colorMode}) => {
 
     return(
         <VStack spacing={4}>
-            {console.log(movements)}
-
             <BalanceSection colorMode={colorMode} />
-            
             <MovementsTableSection colorMode={colorMode} />
-
-
-
         </VStack>
     )
 }
