@@ -11,11 +11,11 @@ import {
   } from "@chakra-ui/react";
 
 
-const MovementsTable = ({colorMode, children, tCaption}) => {
+const MovementsTable = ({colorMode, children, tCaption, tCaptionPlacement, variant}) => {
     return(
-        <Table variant="striped" size="sm" colorScheme={colorMode==="light"?"gray":"teal"}>
+        <Table variant={variant} size="sm" colorScheme={colorMode==="light"?"gray":"teal"}>
             <TableCaption placement="top">Para agregar un movimiento utilice el botón <Text as="span" fontWeight="extrabold" fontSize="20px" >+</Text> en el panel inferior</TableCaption>
-            <TableCaption>{tCaption}</TableCaption>
+            <TableCaption placement={tCaptionPlacement}>{tCaption}</TableCaption>
             <Thead>
                 <Tr>
                     <THTXT>Fecha</THTXT>

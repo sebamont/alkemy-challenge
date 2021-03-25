@@ -65,6 +65,7 @@ export const GlobalProvider = ({children}) => {
     async function editMovement(id, movement){
         try {
             const res = await axios.patch(`/api/movements/${id}`, movement);
+            
             dispatch({
                 type: 'EDIT_MOVEMENT',
                 payload: {
@@ -72,6 +73,7 @@ export const GlobalProvider = ({children}) => {
                     newMovement: res.data.newdata
                 }
             }) 
+            console.log(res);
 
         } catch (err) {
             dispatch({

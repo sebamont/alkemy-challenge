@@ -33,13 +33,24 @@ export default BalanceResume;
 const BalanceHeaderSection = ({colorMode}) => {
     const {movements} = useContext(GlobalContext);
 
-    let total = movements.reduce((a,b) =>({movementAmount: a.movementAmount + b.movementAmount}));
-    let incomesTotal = movements.filter((mov) => mov.movementAmount > 0).reduce((a,b) => ({movementAmount: a.movementAmount + b.movementAmount}));
-    let outcomesTotal = movements.filter((mov) => mov.movementAmount < 0).reduce((a,b) => ({movementAmount: a.movementAmount + b.movementAmount}));
+    let total = 0, incomesTotal = 0, outcomesTotal = 0;
 
-    const formattedTotal = formatToAbsCurrency(total.movementAmount);
-    const formattedincomes = formatToAbsCurrency(incomesTotal.movementAmount);
-    const formattedOutcomes = formatToAbsCurrency(outcomesTotal.movementAmount);
+    if(movements.length>0){
+        total = movements.reduce((a,b) =>({movementAmount: a.movementAmount + b.movementAmount}));
+        let incomesArray = movements.filter((mov) => mov.movementAmount > 0);
+        let outcomesArray = movements.filter((mov) => mov.movementAmount < 0);
+        if (incomesArray.length > 0){
+            incomesTotal = incomesArray.reduce((a,b) => ({movementAmount: a.movementAmount + b.movementAmount}));
+        }
+        if (outcomesArray.length > 0){
+            outcomesTotal = outcomesArray.reduce((a,b) => ({movementAmount: a.movementAmount + b.movementAmount}));
+        }
+
+    }
+
+    const formattedTotal = total!==0 ? formatToAbsCurrency(total.movementAmount) : 0;
+    const formattedincomes = incomesTotal!==0 ? formatToAbsCurrency(incomesTotal.movementAmount): 0;
+    const formattedOutcomes = outcomesTotal !== 0 ? formatToAbsCurrency(outcomesTotal.movementAmount) : 0;
 
     return(
         <>
@@ -107,7 +118,7 @@ const MovementsTableSection = ({colorMode}) => {
             <Heading as="h3" size="md" color={colorMode==="light"?"gray.600":"gray.400"} textAlign="center">
                 Ultimos 10 movimientos
             </Heading>
-            <MovementsTable colorMode={colorMode} tCaption={<Button as={Link} to="/all" size="xs" variant="ghost" colorScheme="teal">Ver/editar todos los movimientos...</Button>} >
+            <MovementsTable variant="striped" colorMode={colorMode} tCaptionPlacement="bottom" tCaption={<Button as={Link} to="/all" size="xs" variant="ghost" colorScheme="teal">Ver/editar todos los movimientos...</Button>} >
                 {movementRows}
             </MovementsTable>
         </>

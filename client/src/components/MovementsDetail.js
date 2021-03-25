@@ -1,7 +1,9 @@
-import React, {useContext, useEffect} from 'react'
-import {VStack, Heading, Divider, Box, Text, Tr, Button, IconButton} from '@chakra-ui/react';
+import React, {useContext, useEffect, useState} from 'react'
+import {VStack, Heading, Divider, Box, Text, Tr, Button} from '@chakra-ui/react';
 import {Link} from 'react-router-dom';
 import {FaArrowLeft} from 'react-icons/fa';
+
+import MovementModal from './MovementModal';
 
 import MovementsTable, {TDTXT} from './containers/MovementsTable';
 import ResumeBox from './containers/ResumeBox';
@@ -36,8 +38,12 @@ export default MovementsDetail;
 const DetailHeaderSection = ({colorMode}) => {
     const {movements} = useContext(GlobalContext);
 
-    let total = movements.reduce((a,b) =>({movementAmount: a.movementAmount + b.movementAmount}));
-    const formattedTotal = formatToAbsCurrency(total.movementAmount);
+    let total = 0 
+    if(movements.length>0){
+        total = movements.reduce((a,b) =>({movementAmount: a.movementAmount + b.movementAmount}));
+    }
+
+    const formattedTotal = total!==0 ? formatToAbsCurrency(total.movementAmount) : 0;
 
     return(
         <>
@@ -58,18 +64,36 @@ const DetailHeaderSection = ({colorMode}) => {
 }
 
 const DetailMovementsSection = ({colorMode}) => {
-    const {movements, deleteMovement, editMovement} = useContext(GlobalContext);
+    const {movements, getMovements} = useContext(GlobalContext);
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [movementOnModal, setMovementOnModal] =useState({});
+
+    //added timeout to give time to properly load movementonmodal;
+    const openModalWithProp = (mov) => {
+        setTimeout(()=>{
+            setMovementOnModal(mov);
+            setIsModalOpen(true)
+        },500)
+    }
+
+    const closeModal = () => {
+        setTimeout(() => {
+            getMovements();
+            setMovementOnModal({});
+            setIsModalOpen(false);
+        }, 100);
+    }
 
     movements.sort((a,b) => new Date(b.movementCreatedAt) - new Date(a.movementCreatedAt))
 
     const movementRows = movements.map((mov) => {
         return(
-            <Tr key={mov._id}>
+            <Tr key={mov._id} onClick={() => openModalWithProp(mov)} sx={{cursor:"pointer", '&:hover':{bg:"teal.400"}}}>
                 <TDTXT>{new Date(mov.movementCreatedAt).toLocaleDateString()}</TDTXT>
                 <TDTXT>{mov.movementDescription}</TDTXT>
                 <TDTXT isNumeric>
-                    {mov.movementAmount<0 && "-"}${formatToAbsCurrency(mov.movementAmount)}
-                    
+                        {mov.movementAmount<0 && "-"}${formatToAbsCurrency(mov.movementAmount)}
                 </TDTXT>
             </Tr>
         )
@@ -80,9 +104,10 @@ const DetailMovementsSection = ({colorMode}) => {
             <Heading as="h3" size="md" color={colorMode==="light"?"gray.600":"gray.400"} textAlign="center">
                 Todos los Movimientos
             </Heading>
-            <MovementsTable colorMode={colorMode} tCaption="Utilice los botones al final de cada fila para editar/eliminar movimientos">
+            <MovementsTable variant="simple" colorMode={colorMode} tCaptionPlacement="top" tCaption="Haga click en el movimiento que desee editar/eliminar">
                 {movementRows}
             </MovementsTable>
+            <MovementModal isModalOpen={isModalOpen} onCloseModal={closeModal} movementOnModal={movementOnModal} />
         </>
     )
 

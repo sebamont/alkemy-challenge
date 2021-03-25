@@ -145,8 +145,8 @@ const CustomDrawerOverlay = ({onClose}) => {
                                         </Select>
                                     </FormControl>
                                     <Box>
-                                        <Button alignSelf="center" type="submit" colorScheme="teal">Agregar</Button>
-                                        <Button ml="5" alignSelf="flex-end" colorScheme="gray" onClick={onClose}>Cancelar</Button>
+                                        <Button type="submit" colorScheme="teal">Agregar</Button>
+                                        <Button ml="5" colorScheme="gray" onClick={onClose}>Cancelar</Button>
                                     </Box>
                                 </VStack>
                             </form>
