@@ -31,6 +31,7 @@ const MovementModal = ({isModalOpen, onCloseModal, movementOnModal}) => {
 
     
   useEffect(()=>{
+    setIsAboutToDelete(false);
     setMovDescription(movementOnModal.movementDescription);
     setMovAmount(movementOnModal.movementAmount);
     setMovCategory(movementOnModal.movementCategory);
