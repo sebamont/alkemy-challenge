@@ -113,7 +113,7 @@ const CustomDrawerOverlay = ({onClose}) => {
         <DrawerOverlay>
                         <DrawerContent>
                         <DrawerCloseButton />
-                        <DrawerHeader alignSelf="center">{`${description} - ${amount} - ${category}`}</DrawerHeader>
+                        <DrawerHeader alignSelf="center">Agregar movimiento de dinero</DrawerHeader>
 
                         <DrawerBody>
                         </DrawerBody>
@@ -145,8 +145,8 @@ const CustomDrawerOverlay = ({onClose}) => {
                                         </Select>
                                     </FormControl>
                                     <Box>
-                                    <Button alignSelf="center" type="submit" colorScheme="teal">Agregar</Button>
-                                    <Button ml="5" alignSelf="flex-end" colorScheme="gray" onClick={onClose}>Cancelar</Button>
+                                        <Button alignSelf="center" type="submit" colorScheme="teal">Agregar</Button>
+                                        <Button ml="5" alignSelf="flex-end" colorScheme="gray" onClick={onClose}>Cancelar</Button>
                                     </Box>
                                 </VStack>
                             </form>

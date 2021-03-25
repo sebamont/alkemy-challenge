@@ -1,16 +1,16 @@
 import React, {useContext, useEffect} from 'react'
+import {VStack, Heading, Box, Wrap, Flex, Divider, WrapItem, Text, Tr, Button} from '@chakra-ui/react';
+import {Link} from 'react-router-dom';
 
-import {VStack, Heading, Box, Wrap, Flex, Divider, WrapItem, Text} from '@chakra-ui/react';
-
-import MovementsTable from './MovementsTable';
-
+import MovementsTable, {TDTXT} from './containers/MovementsTable';
+import ResumeBox from './containers/ResumeBox';
 import {GlobalContext} from '../context/GlobalContext';
 
 import {formatToAbsCurrency} from '../utils/formatter';
 
 const BalanceResume = ({colorMode}) => {
 
-    const {movements, error, loading, getMovements} = useContext(GlobalContext);
+    const {error, loading, getMovements} = useContext(GlobalContext);
 
     useEffect(()=> {
         getMovements();
@@ -22,7 +22,7 @@ const BalanceResume = ({colorMode}) => {
 
     return(
         <VStack spacing={4}>
-            <BalanceSection colorMode={colorMode} />
+            <BalanceHeaderSection colorMode={colorMode} />
             <MovementsTableSection colorMode={colorMode} />
         </VStack>
     )
@@ -30,7 +30,7 @@ const BalanceResume = ({colorMode}) => {
 
 export default BalanceResume;
 
-const BalanceSection = ({colorMode}) => {
+const BalanceHeaderSection = ({colorMode}) => {
     const {movements} = useContext(GlobalContext);
 
     let total = movements.reduce((a,b) =>({movementAmount: a.movementAmount + b.movementAmount}));
@@ -74,21 +74,42 @@ const BalanceSection = ({colorMode}) => {
     )
 }
 
-const ResumeBox = ({colorMode, children}) => {
-    return(
-        <Box minH="40px"  bg={colorMode==="light"?"white":"teal.800"} p="4" boxShadow="md" borderRadius="md" textAlign="center" d="flex" alignItems="center" >
-            {children}
-        </Box>
-    )
-}
+
 
 const MovementsTableSection = ({colorMode}) => {
+
+    const {movements} = useContext(GlobalContext);
+
+    const movementsCount = movements.length;
+    let maxRows = 10;
+    if (movementsCount<maxRows){
+        maxRows=movementsCount;
+    }
+
+    //sorted by date: from newest to Oldest
+    movements.sort((a,b) => new Date(b.movementCreatedAt) - new Date(a.movementCreatedAt))
+
+
+    //return only the first 10 rows
+    //toLocaleDateString() turns date into "dd/mm/yyyy"
+    //minus sign is added through conditional rendering if mov.movementAmount < 0;
+    const movementRows = movements.slice(0,maxRows).map((mov) => {
+        return(
+            <Tr key={mov._id}>
+                <TDTXT>{new Date(mov.movementCreatedAt).toLocaleDateString()}</TDTXT>
+                <TDTXT>{mov.movementDescription}</TDTXT>
+                <TDTXT isNumeric>{mov.movementAmount<0 && "-"}${formatToAbsCurrency(mov.movementAmount)}</TDTXT>
+            </Tr>
+        )
+    })
     return(
         <>
             <Heading as="h3" size="md" color={colorMode==="light"?"gray.600":"gray.400"} textAlign="center">
                 Ultimos 10 movimientos
             </Heading>
-            <MovementsTable colorMode={colorMode}/>
+            <MovementsTable colorMode={colorMode} tCaption={<Button as={Link} to="/all" size="xs" variant="ghost" colorScheme="teal">Ver/editar todos los movimientos...</Button>} >
+                {movementRows}
+            </MovementsTable>
         </>
     )
 
