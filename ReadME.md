@@ -19,6 +19,12 @@ Full-stack building some sort of expense tracker.
 - Axios
 - CHAKRA UI
 
+### Local Running of the app:
+
+```
+npm run dev
+```
+
 #### Further ideas:
 
 1. Establish a budget and showing money left.
