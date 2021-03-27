@@ -4,8 +4,8 @@ import {Link} from 'react-router-dom';
 
 import MovementsTable, {TDTXT} from './containers/MovementsTable';
 import ResumeBox from './containers/ResumeBox';
-import {GlobalContext} from '../context/GlobalContext';
 
+import {GlobalContext} from '../context/GlobalContext';
 import {formatToAbsCurrency} from '../utils/formatter';
 
 const BalanceResume = ({colorMode}) => {

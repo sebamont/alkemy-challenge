@@ -3,7 +3,7 @@ import {VStack, Heading, Divider, Box, Text, Tr, Button} from '@chakra-ui/react'
 import {Link} from 'react-router-dom';
 import {FaArrowLeft} from 'react-icons/fa';
 
-import MovementModal from './MovementModal';
+import MovementModal from './containers/MovementModal';
 
 import MovementsTable, {TDTXT} from './containers/MovementsTable';
 import ResumeBox from './containers/ResumeBox';

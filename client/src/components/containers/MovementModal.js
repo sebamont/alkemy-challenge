@@ -18,7 +18,7 @@ import {
     Wrap
   } from "@chakra-ui/react"
 
-import {GlobalContext} from '../context/GlobalContext';
+import {GlobalContext} from '../../context/GlobalContext';
 
 
 const MovementModal = ({isModalOpen, onCloseModal, movementOnModal}) => {

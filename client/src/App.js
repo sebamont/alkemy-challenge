@@ -2,11 +2,12 @@ import React from 'react'
 import {VStack, useColorMode} from '@chakra-ui/react';
 import {Switch, Route, useLocation} from "react-router-dom";  
 
-import HeadingComp from './components/Heading';
-import FooterBar from './components/Footer';
-import MainContainer from './components/containers/mainContainer';
 import BalanceResume from './components/BalanceResume';
+import FooterBar from './components/Footer';
+import HeadingComp from './components/Heading';
+import MainContainer from './components/containers/mainContainer';
 import MovementsDetail from './components/MovementsDetail';
+import Statistics from './components/Statistics';
 
 import {GlobalProvider} from './context/GlobalContext';
 
@@ -27,6 +28,9 @@ const App = () => {
             </Route>
             <Route exact path="/all">
               <MovementsDetail colorMode={colorMode}/>
+            </Route>
+            <Route exact path="/stats">
+              <Statistics colorMode={colorMode}/>
             </Route>
           </Switch>
         </MainContainer>
