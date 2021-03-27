@@ -19,9 +19,13 @@ Full-stack building some sort of expense tracker.
 - Axios
 - CHAKRA UI
 
-### Local Running of the app:
+## Local Running of the app:
+
+First install all dependencies (client & server), then run concurrently server and client.
 
 ```
+npm install
+npm run install-client
 npm run dev
 ```
 
