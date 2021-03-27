@@ -1,6 +1,6 @@
 import React, {useContext, useEffect} from 'react';
 import {BarChart, Bar, XAxis, YAxis, Tooltip, PieChart, Pie, Cell, Legend} from 'recharts';
-import {VStack, Wrap, WrapItem, Heading, Divider, Box, Button} from '@chakra-ui/react'; 
+import {VStack, Wrap, WrapItem, Heading, Divider, Box, Button, Spinner} from '@chakra-ui/react'; 
 import { Link } from 'react-router-dom';
 import {FaArrowLeft} from 'react-icons/fa';
 
@@ -44,7 +44,7 @@ const Statistics = ({colorMode}) => {
         //eslint-disable-next-line
     },[])
 
-    if(loading) return <Box>Loading...</Box>
+    if(loading) return <Spinner size="xl" />
     if(error) return <Box>{error}</Box>
 
     return(

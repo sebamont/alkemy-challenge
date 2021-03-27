@@ -1,5 +1,5 @@
 import React, {useContext, useEffect} from 'react'
-import {VStack, Heading, Box, Wrap, Flex, Divider, WrapItem, Text, Tr, Button} from '@chakra-ui/react';
+import {VStack, Heading, Box, Wrap, Flex, Divider, WrapItem, Text, Tr, Button, Spinner} from '@chakra-ui/react';
 import {Link} from 'react-router-dom';
 
 import MovementsTable, {TDTXT} from './containers/MovementsTable';
@@ -17,7 +17,7 @@ const BalanceResume = ({colorMode}) => {
         //eslint-disable-next-line
     },[])
 
-    if(loading) return <Box>Loading...</Box>
+    if(loading) return <Spinner size="xl" />
     if(error) return <Box>{error}</Box>
 
     return(

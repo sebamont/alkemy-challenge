@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react'
-import {VStack, Heading, Divider, Box, Text, Tr, Button} from '@chakra-ui/react';
+import {VStack, Heading, Divider, Box, Text, Tr, Button, Spinner} from '@chakra-ui/react';
 import {Link} from 'react-router-dom';
 import {FaArrowLeft} from 'react-icons/fa';
 
@@ -19,7 +19,7 @@ const MovementsDetail = ({colorMode}) => {
         //eslint-disable-next-line
     },[])
 
-    if(loading) return <Box>Loading...</Box>
+    if(loading) return <Spinner size="xl" />
     if(error) return <Box>{error}</Box>
 
     return(
