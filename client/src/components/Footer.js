@@ -23,6 +23,8 @@ import {
     VStack
     }from '@chakra-ui/react';
 import {FaMoon, FaSun, FaPlusCircle, FaChartLine} from 'react-icons/fa';
+import {Link} from 'react-router-dom';
+
 import {GlobalContext} from '../context/GlobalContext';
 
 const FooterBar = ({colorMode, toggleColorMode}) => {
@@ -38,6 +40,8 @@ const FooterBar = ({colorMode, toggleColorMode}) => {
                         ttplacement="top-end"
                         icon={<FaChartLine />}
                         colormode={colorMode}
+                        as={Link}
+                        to="/stats"
                         />
 
                     <CustomIcon
