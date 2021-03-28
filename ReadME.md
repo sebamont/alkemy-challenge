@@ -22,6 +22,7 @@ Full-stack building some sort of expense tracker.
 ## Local Running of the app:
 
 First install all dependencies (client & server), then run concurrently server and client.
+Add a config.env inside config folder, and store PORT = 5000 , MONGODB_CLOUD_URI (url will be provided through mail) & NODE_ENV = dev
 
 ```
 npm install
