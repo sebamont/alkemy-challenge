@@ -13,8 +13,6 @@ Full-stack building some sort of expense tracker.
 
 ## FE Techs:
 
-**Must be responsive**
-
 - React: _hooks, contextAPI_
 - Axios
 - CHAKRA UI
